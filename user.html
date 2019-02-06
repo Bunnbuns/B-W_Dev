@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Loading...</title>
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#407ad6">
+<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Ben World">
+<meta name="application-name" content="Ben World">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+<meta name="theme-color" content="#3273dc">
+<link rel="stylesheet" href="/assets/styles/bulma.min.css" />
+<link rel="stylesheet" href="/assets/styles/style.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body style="background-color:#fafafa;min-height:100vh;padding:8px;">
+    <h1><b>User</b></h1>
+<a href="../">Back</a>
+    <hr />
+    Name: <span id="name">Loading...</span>
+    <br />
+    Username: <span id="username">Loading...</span>
+    <br />
+    Date Joined: <span id="date">Loading...</span>
+    <br />
+    Bio: <span id="bio">Loading...</span>
+<script>
+window.onload = function () {
+    var id = getAllUrlParams().id;
+    setInfo(id);
+}
+function setInfo(id){
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+        document.title = myObj[0].name + "";
+        document.getElementById("name").innerHTML = myObj[0].name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        document.getElementById("username").innerHTML = myObj[0].username.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        document.getElementById("date").innerHTML = myObj[0].date.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        document.getElementById("bio").innerHTML = myObj[0].bio.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+    };
+    xmlhttp.open("GET", "https://dev.benworld.net/api/user.info.php?username="+id, true);
+    xmlhttp.send();
+}
+
+//credit to stibarc.gq for the function "getAllUrlParams"
+function getAllUrlParams(url) {
+	var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+	var obj = {};
+	if (queryString) {
+		queryString = queryString.split('#')[0];
+		var arr = queryString.split('&');
+		for (var i = 0; i < arr.length; i++) {
+			var a = arr[i].split('=');
+			var paramNum = undefined;
+			var paramName = a[0].replace(/\[\d*\]/, function (v) {
+				paramNum = v.slice(1, -1);
+				return '';
+			});
+			var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+			paramName = paramName;
+			paramValue = paramValue;
+			if (obj[paramName]) {
+				if (typeof obj[paramName] === 'string') {
+					obj[paramName] = [obj[paramName]];
+				}
+				if (typeof paramNum === 'undefined') {
+					obj[paramName].push(paramValue);
+				}
+				else {
+					obj[paramName][paramNum] = paramValue;
+				}
+			}
+			else {
+				obj[paramName] = paramValue;
+			}
+		}
+	}
+	return obj;
+}
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <?php
 $host       = "localhost";
 $username   = "root";
-$password   = "D5yA8qKGMIbfsK31";
+$password   = "password";
 $dbname     = "ben_world_db";
 $dsn        = "mysql:host=$host;dbname=$dbname";
 $options    = array(

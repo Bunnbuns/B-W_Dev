@@ -27,6 +27,7 @@
     <hr />
 <div id="pword" style="display: none">Iccorect password</div>
 <div id="blank" style="display: none">Username or password cannot be blank!</div>
+<div id="usrnot" style="display: none">Username does not exist.</div>
 <div id="err" style="display: none">Error</div>
 <input type="text" id="username" name="username" placeholder="Username" autofocus><br />
 <input type="password" id="password" name="password" placeholder="Password"><br />
@@ -47,6 +48,9 @@ function login() {
 				location.href = "/user.html?id="+username;
             }else if (thing.responseText == "Invalid password.\n") {
                 document.getElementById("pword").style.display = "";
+            }
+            }else if (thing.responseText == "Username does not exist.\n") {
+                document.getElementById("usrnot").style.display = "";
             }else {
 				document.getElementById("err").style.display = "";
 			}

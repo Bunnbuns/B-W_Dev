@@ -8,48 +8,44 @@ include ('common.php');
 
 $connection = new PDO($dsn, $username, $password, $options);
 
-header("Content-Type", "application/json");
-
-if(isset($_POST['email']) && $_POST['email'] !== ""){
-    //Check password by email
-    $sql = "SELECT id, name, username, email, password 
-                    FROM users
-                    WHERE email = :email";
-
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $statement = $connection->prepare($sql);
-    $statement->bindParam(':email', $email, PDO::FETCH_ASSOC);
-    $statement->execute();
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-    
-}else if(isset($_POST['username']) && $_POST['username'] !== ""){
-    //Check password by username
-    $sql = "SELECT id, name, username, email, password 
-                    FROM users
-                    WHERE username = :username";
-
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $statement = $connection->prepare($sql);
-    $statement->bindParam(':username', $username, PDO::FETCH_ASSOC);
-    $statement->execute();
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-}else{
-    //not enough post boiz
-    echo "No username or email specified.\n";
+function usernameExists($connection, $username) {
+    $stmt = $connection->prepare("SELECT 1 FROM users WHERE username=?");
+    $stmt->execute([$username]); 
+    return $stmt->fetchColumn();
 }
-if(isset($_POST['password']) && $_POST['password'] !== ""){
-    if (password_verify($password, $data[0]['password'])) {
-        $_SESSION['username']=$username;
-        //good
-        echo "ok\n";
-    } else {
-        //bad
-        echo "Invalid password.\n";
+
+if(isset($_REQUEST['username']) && $_REQUEST['username'] !== ""){
+if (usernameExists($connection, $_REQUEST['username'])) {
+        //Check password by username
+        $sql = "SELECT id, name, username, email, password
+                        FROM users
+                        WHERE username = :username";
+
+        $username = $_REQUEST['username'];
+        $password = $_REQUEST['password'];
+
+        $statement = $connection->prepare($sql);
+        $statement->bindParam(':username', $username, PDO::FETCH_ASSOC);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    if(isset($_REQUEST['password']) && $_REQUEST['password'] !== ""){
+        if (password_verify($password, $data[0]['password'])) {
+            $_SESSION['username']=$username;
+            //good
+            echo "ok\n";
+        } else {
+            //bad
+            echo "Invalid password.\n";
+        }
+    }else{
+        echo "No password specified.\n";
     }
-}else{
-    echo "No password specified.\n";
-}
+    }else{
+        //not enough post boiz
+        echo "Username does not exist.\n";
+    }
+    }else{
+        //not enough post boiz
+        echo "No username or email specified.\n";
+    }

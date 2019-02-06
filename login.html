@@ -48,7 +48,6 @@ function login() {
 				location.href = "/user.html?id="+username;
             }else if (thing.responseText == "Invalid password.\n") {
                 document.getElementById("pword").style.display = "";
-            }
             }else if (thing.responseText == "Username does not exist.\n") {
                 document.getElementById("usrnot").style.display = "";
             }else {

@@ -49,7 +49,7 @@ function register() {
 	if (name != "" && name != null && name != undefined && username != "" && username != null && username != undefined && password != "" && password != null && password != undefined && password2 != "" && password2 != null && password2 != undefined) {
 		if (password == password2) {
 			var thing = new XMLHttpRequest();
-			thing.open("POST", "https://dev.benworld.net/api/register.user.php", true);
+			thing.open("POST", "https://dev.benworld.net/api/register.user.php", false);
             thing.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			thing.send("name="+name+"&username="+username+"&email="+email+"&password="+password+"&bio="+bio);
 			if (thing.responseText == "ok") {

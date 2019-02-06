@@ -1,14 +1,13 @@
 <?php
 session_start();
 
+//temp for dev
 error_reporting(E_ALL); ini_set('display_errors', 1); 
 
 include('config.php');
 include ('common.php');
 
 $connection = new PDO($dsn, $username, $password, $options);
-
-$message = array();
 
 if(isset($_GET['email']) && $_GET['email'] !== ""){
     //Check password by email

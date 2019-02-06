@@ -35,7 +35,12 @@
 <div></div>
 <script>
 function login() {
-
+    //hide error divs
+    document.getElementById("blank").style.display = "none";
+    document.getElementById("usrnot").style.display = "none";
+    document.getElementById("err").style.display = "none";
+    document.getElementById("pword").style.display = "none";
+    //set vars from inputs
 	var username = document.getElementById("username").value;
 	var password = document.getElementById("password").value;
     

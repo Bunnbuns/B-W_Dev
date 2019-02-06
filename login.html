@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#407ad6">
+<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Ben World">
+<meta name="application-name" content="Ben World">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+<meta name="theme-color" content="#3273dc">
+<link rel="stylesheet" href="/assets/styles/bulma.min.css" />
+<link rel="stylesheet" href="/assets/styles/style.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body style="background-color:#fafafa;min-height:100vh;padding:8px;">
+    <h1><b>Login</b></h1>
+<a href="../">Back</a>
+    <hr />
+<div id="pword" style="display: none">Iccorect password</div>
+<div id="blank" style="display: none">Username or password cannot be blank!</div>
+<div id="err" style="display: none">Error</div>
+<input type="text" id="username" name="username" placeholder="Username" autofocus><br />
+<input type="password" id="password" name="password" placeholder="Password"><br />
+<button id="send">Login</button><br><br>
+<div></div>
+<script>
+function login() {
+
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+    
+	if (username != "" && username != null && username != undefined && password != "" && password != null && password != undefined) {
+			var thing = new XMLHttpRequest();
+			thing.open("POST", "https://dev.benworld.net/api/verify.user.php", false);
+            thing.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			thing.send("name="+name+"&username="+username+"&password="+password);
+			if (thing.responseText == "ok\n") {
+				location.href = "/user.html?id="+username;
+            }else if (thing.responseText == "Invalid password.\n") {
+                document.getElementById("pword").style.display = "";
+            }else {
+				document.getElementById("err").style.display = "";
+			}
+	} else {
+		document.getElementById("blank").style.display = "";
+	}
+}
+
+window.onload = function () {
+	document.getElementById("send").onclick = function (evt) {
+		login();
+	}
+}
+    
+</script>
+    </body>
+</html>

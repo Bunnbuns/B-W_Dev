@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 error_reporting(E_ALL); ini_set('display_errors', 1); 
 
 include('config.php');
@@ -41,14 +43,13 @@ if(isset($_GET['email']) && $_GET['email'] !== ""){
 }
 if(isset($_GET['password']) && $_GET['password'] !== ""){
     if (password_verify($password, $data[0]['password'])) {
-        echo "ok\n";
+        $_SESSION['username']=$username;
+        //good
+        echo $_COOKIE['PHPSESSID'];
     } else {
+        //bad
         echo "Invalid password.\n";
     }
 }else{
     echo "No password specified.\n";
 }
-
-//print_r($message);
-//echo "<br />"
-//echo json_encode($message, JSON_PRETTY_PRINT);
